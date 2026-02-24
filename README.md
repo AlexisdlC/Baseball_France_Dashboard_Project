@@ -43,3 +43,21 @@ The repository contains three python files covering the data gathering and uploa
   1. The database needs to exist and has to have been created prior to running the script. This can be done using the _init_db.sql_ script.
   2. Running this script will completely replace the _bronze_ layer with the new data. If you already have data in the database, it'll be erased since the load is set to "if_exists = 'replace'". Only run for a first load, or if you want to restart from scractch. Otherwise use the _update_db.py_ script.
 * **update_db.py**: Python script to update and load new data in the SQL database. The script first connects to the local database, using parameters that can be modified in section 1.1 (lines #18-20). After checking the connection, the script will query the database to check the latest game date already present and use it as the _start_date_ from which to start and pull data from. The user defined _end_date_ can be set in section 3 (line #71), and a safeguard will first check if the _end_date_ is after the _start_date_, since the Pybaseball function will automatically invert the dates to pull data. If the _end_date_ is before the _start_date_ the script will exit and no data will be added to the database to avoid duplicate entries. Otherwise the script will get the new data and use the functions from _functions.py_ to get and transform games and players' data. After this, it'll load the new data in the _bronze_ layer of the database, this time using the _"if_exists='append'"_ method to add new data and not reset the layer completely. Once all the tables of the _bronze_ layer have been updated, the script will also execute a stored procedure _silver.load_silver_ to push the new data to the silver layer, which will automatically be accessible in the gold layers which uses views.
+
+# Data Warehouse Structure
+
+The Data Warehouse was built in SQL using *SQL Server*, and in the *"Medaillon Structure"*.
+
+## Bronze Layer
+
+The **_Bronze Layer_** is used to load the unprocessed data from the source. This is the layer the Python scripts connect to, to load new data and update the database. The data is stored in tables.
+
+## Silver Layer
+
+The **_Silver Layer_** is used to store clean, processed and transformed data. The data is loaded using the *"Truncate and Insert"* method from the Bronze Layer. The data is stored in tables, cleaned, normalized, enriched and standardized.
+
+## Gold Layer
+
+The **_Gold Layer_** is the final layer of the Data Warehouse, with ready to use data for reporting and analytics. The data is stored in Views, with a Star Schema Model.
+
+![Architecture of the model of the Gold Layer](/assets/DataMarts_Structure.drawio.png)
