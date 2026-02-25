@@ -61,3 +61,53 @@ The **_Silver Layer_** is used to store clean, processed and transformed data. T
 The **_Gold Layer_** is the final layer of the Data Warehouse, with ready to use data for reporting and analytics. The data is stored in Views, with a Star Schema Model.
 
 ![Architecture of the model of the Gold Layer](/assets/DataMarts_Structure.drawio.png)
+
+# Dashboards
+
+The dashboards were built by connecting and loading the **_Gold Layer_** to **Power BI**. Power Query was used to transform some of the data (translating some terms to French, adding team logos and player pictures for example) and DAX was used as well to build Measures allowing for a responsive experience.
+
+The dashboard can be accessed online here: [Access Dashboard](https://tinyurl.com/BaseballFr2025).
+
+## "Vue Globale Equipe"
+
+!["Vue Globale Equipe" Page](/assets/VueGlobaleEquipe.PNG)
+
+This page of the dashboard presents global view of a team's players' statistics. The page is split in three sections:
+
+* **Top**: Two slicers are present, one to select a team, one to adjust the date range. Next to this, the global win record, home win record and away win record will appear, as well as a line graph showing the win % evolution over the selected period. Note: if no team is selected, the table will have all the players in the league.
+* **Center**: The first table presents batter statistics: basic cumulative stats, averages, and some advanced metrics. By default, batters are ranked by descending Run Value.
+* **Bottom**: The second table presents pitcher statistics: basic cumulative stats, averages, and some advanced metrics. By default, pitchers are ranked by descending Run Value.
+
+## "Stats Semaines Equipes"
+
+!["Stats Semaines Equipes" Page](/assets/StatsSemainesEquipes.PNG)
+
+This page of the dashboard shows the weekly evolution of team statistics. The team can be selected at the top of the page and the data is presented in different sections:
+
+* **Batting Stats**: The first row of visuals presents team batting stats. The left column chart plots the weekly evolution of averages (BA, OBP, SLG, ...), overlayed with the weekly win percentage of the team. The plotted average can be selected from a slicer above the graph. On the right, another column chart shows the weekly evolution of cumulative stats (H, HR, R, ...) and which statistic is displayed can be chosen from the slicer above the graph.
+*  **Pitching Stats**: The second row of visuals shows team pitching stats. The left column chart can be used to plot the weekly evolution of a selected average (ERA, WHIP, %K, ...) selected from a slicer above the chart. The right column chart plots cumulative statistics (K, ER, BB, ...), also selected using the slicer above the graph.
+
+## "Résultats du Jour"
+
+!["Résultats du Jour" Page](/assets/RésultatsJour.PNG)
+
+This page of the dashboard shows the daily game results across all MLB. 
+
+* **Calendar and Day Selection**: At the top of the page, there are two slicers: one to select a month of the year, a second to select a day of the month.
+* **Result Table**: The main content of the page is a table presenting the game results for the selected day. The results are presented in the format: Home Team - Score - Away Team
+* **Drill Through Option**: When clicking on a row/game in the table, a drill-through button activates at the top of the table, and upon clicking it, the user is taken to a game details' page:
+
+!["Détails du Match" Page](/assets/DetailsMatch.PNG)
+
+On this page, the score of the game is repeated at the top of the page, and the page is then split in several quadrants. First, we find a row with matrices presenting the batting boxscore of each team, and below each matrix, there is a scatter plot overlayed with a baseball field to show each team's hit locations. **Note**: the hit locations are just indicative and do not correspond with the exact location of the hit, since the baseball field overlayed with the location plot is not tailored to each ballpark, but is a simple standard ballpark. Below this is the pitching box score for each team, with finally, below each table, the pitch location of each major event of the game.
+**Note**: this game details page can also be previewed by simply hovering the game in the table.
+
+## "Les Leaders du Jour"
+
+!["Leaders du Jour" Page](/assets/LeadersJour.PNG)
+
+This page of the dashboard shows the daily leaders in selected statistics.
+
+* **Calendar and Day Selection**: At the top of the page, there are two slicers: one to select a month of the year, a second to select a day of the month.
+* **Batting Stats**: Two tables present leaders (top 5) in two batting statistics for the selected day: exit velocity (in mph) and home run hit distance (in ft).
+* **Pitching Stats**: Two tables present leaders (top 5) in two pitching statistics for the selected day: pitch release speed (in mph) and whiff percentage.
